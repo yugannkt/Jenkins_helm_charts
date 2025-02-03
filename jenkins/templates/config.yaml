@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-config
+  labels:
+    app: jenkins
+data:
+  JENKINS_HOME: {{ .Values.configMap.jenkinsHome }}
+  JENKINS_URL: {{ .Values.configMap.jenkinsUrl }}
+  JENKINS_SLAVE_AGENT_PORT: "{{ .Values.configMap.jenkinsSlaveAgentPort }}"

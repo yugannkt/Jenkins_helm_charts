@@ -1,0 +1,54 @@
+# Jenkins Chart Values
+
+
+# Jenkins Admin credentials
+adminUsername: "admin"
+adminPassword: "adminpassword"
+
+# Persistence
+persistence:
+  enabled: true
+  storageClass: "default"
+  size: "10Gi"
+
+# Jenkins URL
+jenkinsUrl: "jenkins.local"
+
+# Ingress Configuration
+ingress:
+  enabled: false
+  host: "jenkins.local"
+  annotations: {}
+  path: "/"
+
+# Service Configuration
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+# Resource requests and limits
+resources:
+  requests:
+    memory: "2Gi"
+    cpu: "1"
+  limits:
+    memory: "4Gi"
+    cpu: "2"
+
+# ConfigMap settings
+configMap:
+  jenkinsHome: "/var/jenkins_home"
+  jenkinsUrl: "http://jenkins.local"
+  jenkinsSlaveAgentPort: 50000
+
+# Enable/Disable Jenkins Master and Slave
+master:
+  enabled: true
+  replicas: 1
+  image: "newimg.azurecr.io/jenkins-custom" 
+  tag: "latest" 
+  imagePullPolicy: IfNotPresent
+  securityContext:
+    runAsUser: 1000
+    fsGroup: 1000 

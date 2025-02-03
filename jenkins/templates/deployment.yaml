@@ -1,0 +1,80 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: jenkins
+#   labels:
+#     app: jenkins
+# spec:
+#   replicas: {{ .Values.master.replicas }}
+#   selector:
+#     matchLabels:
+#       app: jenkins
+#   template:
+#     metadata:
+#       labels:
+#         app: jenkins
+#     spec:
+#       securityContext:
+#         fsGroup: 1000
+#       containers:
+#         - name: jenkins
+#           securityContext:
+#             runAsUser: 1000
+#             runAsGroup: 1000
+#           image: {{ .Values.master.image }}:{{ .Values.master.tag }}
+#           imagePullPolicy: {{ .Values.master.imagePullPolicy }}
+#           env:
+#             - name: JENKINS_OPTS
+#               value: "--httpPort=8080"
+#             - name: JENKINS_HOME
+#               value: {{ .Values.configMap.jenkinsHome }}
+#           volumeMounts:
+#             - mountPath: {{ .Values.configMap.jenkinsHome }}
+#               name: jenkins-home
+#           ports:
+#             - containerPort: 8080
+#             - containerPort: 50000 # For JNLP slaves
+#       volumes:
+#         - name: jenkins-home
+#           persistentVolumeClaim:
+#             claimName: jenkins-home-pvc
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  labels:
+    app: jenkins
+spec:
+  replicas: {{ .Values.master.replicas }}
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      securityContext:
+        runAsUser: 1000      # Runs the container as the Jenkins user (UID 1000)
+        runAsGroup: 1000     # Runs the container under group ID 1000
+        fsGroup: 1000        # Ensures volume ownership is set to group 1000
+      containers:
+        - name: jenkins
+          image: {{ .Values.master.image }}:{{ .Values.master.tag }}
+          imagePullPolicy: {{ .Values.master.imagePullPolicy }}
+          env:
+            - name: JENKINS_OPTS
+              value: "--httpPort=8080"
+            - name: JENKINS_HOME
+              value: {{ .Values.configMap.jenkinsHome }}
+          volumeMounts:
+            - mountPath: {{ .Values.configMap.jenkinsHome }}
+              name: jenkins-home
+          ports:
+            - containerPort: 8080
+            - containerPort: 50000 # For JNLP slaves
+      volumes:
+        - name: jenkins-home
+          persistentVolumeClaim:
+            claimName: jenkins-home-pvc

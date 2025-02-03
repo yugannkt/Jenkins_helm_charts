@@ -1,0 +1,5 @@
+apiVersion: v2
+name: jenkins
+description: A Helm chart for Jenkins LTS
+version: 1.0.0
+# appVersion: "2.375.1"  # Use the latest Jenkins LTS version
