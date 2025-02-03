@@ -42,6 +42,9 @@ configMap:
   jenkinsUrl: "http://jenkins.local"
   jenkinsSlaveAgentPort: 50000
 
+secret:
+  enabled: false
+
 # Enable/Disable Jenkins Master and Slave
 master:
   enabled: true
