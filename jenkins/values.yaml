@@ -22,13 +22,14 @@ jenkinsUrl: "jenkins.local"
 #   path: "/"
 ingress:
   enabled: true
-  ingressClassName: "nginx"
+  host: jenkins.pocdevops.shop  # Your domain
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-  hostName: "jenkins.pocdevops.shop"
-  paths:
-    - path: /
-      pathType: Prefix
+  ingressClassName: "nginx"
+
+service:
+  port: 8080  # Jenkins service port
+
 
 # Service Configuration
 service:
