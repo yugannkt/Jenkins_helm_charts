@@ -1,3 +1,23 @@
+# {{- if .Values.ingress.enabled }}
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: jenkins-ingress
+#   annotations:
+#     {{- toYaml .Values.ingress.annotations | nindent 4 }}
+# spec:
+#   rules:
+#   - host: {{ .Values.ingress.host }}
+#     http:
+#       paths:
+#       - path: {{ .Values.ingress.path }}
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: jenkins
+#             port:
+#               number: {{ .Values.service.port }}
+# {{- end }}
 {{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -6,15 +26,16 @@ metadata:
   annotations:
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
+  ingressClassName: nginx  # Ensure your NGINX Ingress is referenced
   rules:
-  - host: {{ .Values.ingress.host }}
+  - host: {{ .Values.ingress.hostName }}
     http:
       paths:
-      - path: {{ .Values.ingress.path }}
+      - path: {{ .Values.ingress.paths.[0].path }}
         pathType: Prefix
         backend:
           service:
-            name: jenkins
+            name: {{ .Values.service.name | default "jenkins" }}
             port:
               number: {{ .Values.service.port }}
 {{- end }}
