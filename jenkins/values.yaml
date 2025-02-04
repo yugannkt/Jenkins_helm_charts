@@ -14,21 +14,13 @@ persistence:
 # Jenkins URL
 jenkinsUrl: "jenkins.local"
 
-# Ingress Configuration
-# ingress:
-#   enabled: false
-#   host: "jenkins.local"
-#   annotations: {}
-#   path: "/"
+Ingress Configuration
 ingress:
-  enabled: true
-  host: jenkins.pocdevops.shop  # Your domain
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-  ingressClassName: "nginx"
+  enabled: false
+  host: "jenkins.local"
+  annotations: {}
+  path: "/"
 
-service:
-  port: 8080  # Jenkins service port
 
 
 # Service Configuration
