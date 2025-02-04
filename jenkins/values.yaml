@@ -15,11 +15,20 @@ persistence:
 jenkinsUrl: "jenkins.local"
 
 # Ingress Configuration
+# ingress:
+#   enabled: false
+#   host: "jenkins.local"
+#   annotations: {}
+#   path: "/"
 ingress:
-  enabled: false
-  host: "jenkins.local"
-  annotations: {}
-  path: "/"
+  enabled: true
+  ingressClassName: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hostName: "jenkins.pocdevops.shop"
+  paths:
+    - path: /
+      pathType: Prefix
 
 # Service Configuration
 service:
