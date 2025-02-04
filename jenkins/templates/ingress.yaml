@@ -26,12 +26,12 @@ metadata:
   annotations:
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
-  ingressClassName: nginx  # Ensure your NGINX Ingress is referenced
+  ingressClassName: nginx
   rules:
   - host: {{ .Values.ingress.hostName }}
     http:
       paths:
-      - path: {{ .Values.ingress.paths.[0].path }}
+      - path: {{ index .Values.ingress.paths 0 "path" }}  # FIXED
         pathType: Prefix
         backend:
           service:
