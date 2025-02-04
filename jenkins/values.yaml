@@ -14,7 +14,7 @@ persistence:
 # Jenkins URL
 jenkinsUrl: "jenkins.local"
 
-Ingress Configuration
+#Ingress Configuration
 ingress:
   enabled: false
   host: "jenkins.local"
